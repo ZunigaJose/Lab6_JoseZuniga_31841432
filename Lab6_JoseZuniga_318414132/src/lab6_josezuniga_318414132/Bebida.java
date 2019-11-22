@@ -112,7 +112,9 @@ public class Bebida {
     }
 
     public void setColorante(String colorante) {
-        this.colorantes.add(colorante);
+        if (!this.colorantes.contains(colorante)) {
+            this.colorantes.add(colorante);
+        }
     }
 
     public Date getFechaVencimineto() {
