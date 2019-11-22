@@ -3,6 +3,7 @@ package lab6_josezuniga_318414132;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends javax.swing.JFrame {
 
@@ -27,7 +28,7 @@ public class MainForm extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         creaCod = new javax.swing.JFormattedTextField();
@@ -90,7 +91,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -106,7 +107,7 @@ public class MainForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -508,6 +509,7 @@ public class MainForm extends javax.swing.JFrame {
         Bebida be = new Bebida(codigo, marca, bebida, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
         ab.setBebida(be);
         ab.escribirArchivo();
+        combobox();
         creaAlcohol.setValue(0);
         creaAzucar.setText("");
         creaCant.setValue(0);
@@ -523,7 +525,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
         if (jTabbedPane1.getSelectedIndex() == 0) {
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -539,7 +541,12 @@ public class MainForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-            
+            Object[]arr;
+            DefaultTableModel modelo = (DefaultTableModel)tabla.getModel();
+            for (Bebida bebida : ab.getBebidas()) {
+                arr = new Object[]{bebida.getBebida(), bebida.getMarca(), bebida.getPrecio(), bebida.getCantidad()};
+                modelo.addRow(arr);
+            }
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
@@ -633,7 +640,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JSpinner modAlcohol;
     private javax.swing.JFormattedTextField modAzucar;
     private javax.swing.JSpinner modCant;
@@ -645,6 +651,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField modNombre1;
     private javax.swing.JFormattedTextField modPrecio;
     private javax.swing.JRadioButton modSi;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
     administrarBebidas ab = new administrarBebidas("./bebidas.txt");
 }
