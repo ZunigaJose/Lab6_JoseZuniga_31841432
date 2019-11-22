@@ -1,6 +1,7 @@
 package lab6_josezuniga_318414132;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -49,7 +50,7 @@ public class MainForm extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         creaLote = new javax.swing.JFormattedTextField();
         jLabel20 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboColor = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         crear = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
@@ -76,7 +77,7 @@ public class MainForm extends javax.swing.JFrame {
         modNombre1 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        modcolor = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         modNo = new javax.swing.JRadioButton();
@@ -130,11 +131,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel1.setText("Codigo");
 
-        try {
-            creaCod.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        creaCod.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("########"))));
 
         jLabel2.setText("Nombre");
 
@@ -164,9 +161,14 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel20.setText("Colorantes");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
+        comboColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
 
         jButton2.setText("Agregar Colorante");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         crear.setText("Crear");
         crear.addActionListener(new java.awt.event.ActionListener() {
@@ -207,7 +209,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addComponent(jButton2)))
                 .addGap(61, 61, 61))
@@ -272,7 +274,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(jLabel20)
                         .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,6 +298,12 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Crear", jPanel2);
 
+        comboModi.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboModiItemStateChanged(evt);
+            }
+        });
+
         jLabel10.setText("Nombre Marca");
 
         jLabel11.setText("Azucar");
@@ -316,11 +324,7 @@ public class MainForm extends javax.swing.JFrame {
 
         modPrecio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
-        try {
-            modCod1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        modCod1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         jLabel16.setText("Cantidad");
 
@@ -332,11 +336,21 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel19.setText("Colorantes");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
+        modcolor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
 
         jButton1.setText("Agregar Colorante");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Setear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         buttonGroup2.add(modNo);
         modNo.setText("No");
@@ -394,7 +408,7 @@ public class MainForm extends javax.swing.JFrame {
                                         .addComponent(modLote, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(modcolor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addComponent(jLabel22)
                                                 .addGap(18, 18, 18)
@@ -437,7 +451,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modcolor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -507,10 +521,12 @@ public class MainForm extends javax.swing.JFrame {
         nacional = creaSi.isSelected();
         fechaVencimineto = creaFecha.getDate();
         Bebida be = new Bebida(codigo, marca, bebida, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
+        be.setColorantes(colorante);
         ab.setBebida(be);
         ab.escribirArchivo();
         combobox();
         creaAlcohol.setValue(0);
+        colorante = new ArrayList<>();
         creaAzucar.setText("");
         creaCant.setValue(0);
         creaCod.setText("");
@@ -547,8 +563,57 @@ public class MainForm extends javax.swing.JFrame {
                 arr = new Object[]{bebida.getBebida(), bebida.getMarca(), bebida.getPrecio(), bebida.getCantidad()};
                 modelo.addRow(arr);
             }
+        } else if (jTabbedPane1.getSelectedIndex() == 2) {
+            comboModi.setSelectedIndex(-1);
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void comboModiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboModiItemStateChanged
+        if (comboModi.getSelectedIndex() >= 0) {
+            Bebida bebida = (Bebida)comboModi.getSelectedItem();
+            modAlcohol.setValue(bebida.getAlcohol());
+            modAzucar.setText(String.valueOf(bebida.getAzucar()));
+            modCant.setValue(bebida.getCantidad());
+            modCod1.setText(bebida.getCodigo());
+            modFecha.setDate(bebida.getFechaVencimineto());
+            modLote.setText(String.valueOf(bebida.getLote()));
+            modMarca1.setText(bebida.getMarca());
+            modSi.setSelected(bebida.isNacional());
+            modNo.setSelected(!bebida.isNacional());
+            modNombre1.setText(bebida.getBebida());
+            modPrecio.setText(String.valueOf(bebida.getPrecio()));
+        }
+    }//GEN-LAST:event_comboModiItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        agregarColorante(comboColor.getSelectedItem().toString());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        agregarColorante(modcolor.getSelectedItem().toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (comboModi.getSelectedIndex() >= 0) {
+            String codigo, marca, bebida;
+            double azucar;
+            int alcohol, lote, cantidad, precio;
+            boolean nacional;
+            Date fechaVencimineto;
+            codigo = modCod1.getText();
+            marca = modMarca1.getText();
+            bebida = modNombre1.getText();
+            azucar = Double.parseDouble(modAzucar.getText());
+            lote = Integer.parseInt(modLote.getText());
+            cantidad = Integer.parseInt(modCant.getValue().toString());
+            alcohol = Integer.parseInt(modAlcohol.getValue().toString());
+            precio = Integer.parseInt(modPrecio.getText());
+            nacional = modSi.isSelected();
+            fechaVencimineto = modFecha.getDate();
+            Bebida be = new Bebida(codigo, marca, marca, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
+            ab.getBebidas().set(comboModi.getSelectedIndex(), be);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -592,9 +657,16 @@ public class MainForm extends javax.swing.JFrame {
         }
         comboModi.setModel(modelo);
     }
+    
+    private void agregarColorante(String colorante){
+        if (!colorante.contains(colorante)) {
+            this.colorante.add(colorante);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox<String> comboColor;
     private javax.swing.JComboBox<String> comboModi;
     private javax.swing.JSpinner creaAlcohol;
     private javax.swing.JFormattedTextField creaAzucar;
@@ -611,8 +683,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -651,7 +721,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField modNombre1;
     private javax.swing.JFormattedTextField modPrecio;
     private javax.swing.JRadioButton modSi;
+    private javax.swing.JComboBox<String> modcolor;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
     administrarBebidas ab = new administrarBebidas("./bebidas.txt");
+    ArrayList<String>colorante = new ArrayList<>();
 }
