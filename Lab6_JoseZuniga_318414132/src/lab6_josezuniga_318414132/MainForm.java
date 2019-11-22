@@ -1,7 +1,7 @@
 package lab6_josezuniga_318414132;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +13,9 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        ab.leerArchivo();
+        jTabbedPane1.setSelectedIndex(1);
+        jTabbedPane1.setSelectedIndex(0);
     }
 
     /**
@@ -83,6 +86,9 @@ public class MainForm extends javax.swing.JFrame {
         modNo = new javax.swing.JRadioButton();
         jLabel22 = new javax.swing.JLabel();
         modSi = new javax.swing.JRadioButton();
+        jPanel4 = new javax.swing.JPanel();
+        comboEli = new javax.swing.JComboBox<>();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,7 +163,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel9.setText("Numero de Lote");
 
-        creaLote.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        creaLote.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0"))));
 
         jLabel20.setText("Colorantes");
 
@@ -484,6 +490,31 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Modificar", jPanel3);
 
+        jToggleButton1.setText("eliminar");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(comboEli, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96)
+                .addComponent(jToggleButton1)
+                .addContainerGap(227, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboEli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton1))
+                .addContainerGap(292, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Eliminar", jPanel4);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -505,38 +536,47 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
+
         String codigo, marca, bebida;
         double azucar;
         int alcohol, lote, cantidad, precio;
         boolean nacional;
         Date fechaVencimineto;
-        codigo = creaCod.getText();
-        marca = creaMarca.getText();
-        bebida = creaNombre.getText();
-        azucar = Double.parseDouble(creaAzucar.getText());
-        lote = Integer.parseInt(creaLote.getText());
-        cantidad = Integer.parseInt(creaCant.getValue().toString());
-        alcohol = Integer.parseInt(creaAlcohol.getValue().toString());
-        precio = Integer.parseInt(creaPrecio.getText());
-        nacional = creaSi.isSelected();
-        fechaVencimineto = creaFecha.getDate();
-        Bebida be = new Bebida(codigo, marca, bebida, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
-        be.setColorantes(colorante);
-        ab.setBebida(be);
-        ab.escribirArchivo();
-        combobox();
-        creaAlcohol.setValue(0);
-        colorante = new ArrayList<>();
-        creaAzucar.setText("");
-        creaCant.setValue(0);
-        creaCod.setText("");
-        creaFecha.setDate(new Date());
-        creaLote.setText("");
-        creaMarca.setText("");
-        creaSi.setSelected(true);
-        creaNo.setSelected(false);
-        creaNombre.setText("");
-        creaPrecio.setText("");
+        try {
+            codigo = creaCod.getText();
+            marca = creaMarca.getText();
+            bebida = creaNombre.getText();
+            azucar = Double.parseDouble(creaAzucar.getText());
+            lote = Integer.parseInt(creaLote.getText());
+            cantidad = Integer.parseInt(creaCant.getValue().toString());
+            alcohol = Integer.parseInt(creaAlcohol.getValue().toString());
+            precio = Integer.parseInt(creaPrecio.getText());
+            nacional = creaSi.isSelected();
+            fechaVencimineto = creaFecha.getDate();
+            Bebida be = new Bebida(codigo, marca, bebida, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
+            be.setColorantes(colorante);
+            ab.setBebida(be);
+            try {
+                ab.escribirArchivo();
+                System.out.println("Hola");
+            } catch (IOException ex) {
+                System.out.println("Adios");
+            }
+            combobox();
+            creaAlcohol.setValue(0);
+            colorante = new ArrayList<>();
+            creaAzucar.setText("");
+            creaCant.setValue(0);
+            creaCod.setText("");
+            creaFecha.setDate(new Date());
+            creaLote.setText("");
+            creaMarca.setText("");
+            creaSi.setSelected(true);
+            creaNo.setSelected(false);
+            creaNombre.setText("");
+            creaPrecio.setText("");
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_crearActionPerformed
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
@@ -659,14 +699,17 @@ public class MainForm extends javax.swing.JFrame {
     }
     
     private void agregarColorante(String colorante){
-        if (!colorante.contains(colorante)) {
-            this.colorante.add(colorante);
-        }
+        this.colorante.add(colorante);
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel)comboColor.getModel();
+        modelo.removeElement(colorante);
+        comboColor.setModel(modelo);
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> comboColor;
+    private javax.swing.JComboBox<String> comboEli;
     private javax.swing.JComboBox<String> comboModi;
     private javax.swing.JSpinner creaAlcohol;
     private javax.swing.JFormattedTextField creaAzucar;
@@ -708,8 +751,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JSpinner modAlcohol;
     private javax.swing.JFormattedTextField modAzucar;
     private javax.swing.JSpinner modCant;

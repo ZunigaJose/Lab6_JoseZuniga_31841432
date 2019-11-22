@@ -1,0 +1,3 @@
+134;Coca Cola Co;Coca Cola;136.79;0;674;14;18;false;Azul-4,Rojo-69,Verde-420,;13/11/2020;
+13435346;Pepsi Co;Pepsi;133.79;0;674;14;18;false;Azul-4,Rojo-69,;21/10/2021;
+134;Jugos Co;Juguito;78.65;0;674;14;18;false;Azul-4,Rojo-69,Verde-420,;13/12/2020;
