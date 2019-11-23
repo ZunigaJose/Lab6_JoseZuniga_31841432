@@ -1,6 +1,5 @@
 		Supermercado EL Barrio
 Factura#0		22/11/2019
 Product.			Cant.			Precio
-Coca Cola		2		L.14
-Juguito		4		L.14
-Pepsi		4		L.14					Total: 54
+Imperial		12		L.11
+Salva Vida		10		L.12					Total: 49

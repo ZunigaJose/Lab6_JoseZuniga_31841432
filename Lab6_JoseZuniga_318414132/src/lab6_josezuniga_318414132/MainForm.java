@@ -1,9 +1,16 @@
 package lab6_josezuniga_318414132;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +25,7 @@ public class MainForm extends javax.swing.JFrame {
         ab.leerArchivo();
         jTabbedPane1.setSelectedIndex(1);
         jTabbedPane1.setSelectedIndex(0);
-        numFact = numerito.leerNumerito();
+        numero();
         System.out.println(numFact);
         establecerCoti();
         combobox();
@@ -513,6 +520,11 @@ public class MainForm extends javax.swing.JFrame {
         jTabbedPane1.addTab("Modificar", jPanel3);
 
         jToggleButton1.setText("eliminar");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -641,6 +653,8 @@ public class MainForm extends javax.swing.JFrame {
             }
         } else if (jTabbedPane1.getSelectedIndex() == 2) {
             comboModi.setSelectedIndex(-1);
+        } else {
+            comboEli.setModel(comboModi.getModel());
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
@@ -719,14 +733,28 @@ public class MainForm extends javax.swing.JFrame {
         if (agregue) {
             coti += "\t\t\t\t\tTotal: " + total;
             total = 0;
-            facturita = new administrarBebidas("./Factura" + numFact + ".txt");
+            facturita = new administrarBebidas("./Factura" + new Date().getDay() + "_" + new Date().getSeconds() + ".txt");
             facturita.escribirFact(coti);
-            numFact = numerito.leerNumerito();
+            numero();
+            escribirnumero();
             establecerCoti();
+            agregue = false;
         } else {
             JOptionPane.showMessageDialog(this, "No hay nada que generar");
         }
     }//GEN-LAST:event_cotizacionActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        ab.getBebidas().remove((Bebida)comboEli.getSelectedItem());
+        combobox();
+        jTabbedPane1.setSelectedIndex(0);
+        jTabbedPane1.setSelectedIndex(3);
+        try {
+            ab.escribirArchivo();
+        } catch (IOException ex) {
+            
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -789,6 +817,28 @@ public class MainForm extends javax.swing.JFrame {
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
         coti += sd.format(new Date()) + "\n"
                 + "Product.\t\t\tCant.\t\t\tPrecio";
+    }
+    
+    public void numero(){
+        File f = new File("./numerito");
+        try {
+            FileReader fr = new FileReader(f);
+            Scanner sc = new Scanner(f);
+            int x = sc.nextInt();
+            numFact = x;
+        } catch (Exception e) {
+        }
+    }
+    
+    public void escribirnumero(){
+        File f = new File("./numerito");
+        try {
+            FileWriter fw = new FileWriter(f, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(numFact++);
+            bw.flush();
+        } catch (Exception e) {
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
