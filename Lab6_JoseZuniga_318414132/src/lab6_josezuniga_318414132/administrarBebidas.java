@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class administrarBebidas {
     private ArrayList<Bebida> bebidas = new ArrayList<>();
@@ -85,6 +86,38 @@ public class administrarBebidas {
                 }
             } catch (Exception e) {
             }
+        }
+    }
+  
+    public int leerNumerito() {
+        try {
+            FileReader fr = new FileReader(file);
+            Scanner sc = new Scanner(file);
+            int x = sc.nextInt();
+            escribirNumerito(x);
+            return x;
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public void escribirNumerito(int x) {
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(x++);
+            bw.flush();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void escribirFact(String x){
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(x);
+            bw.flush();
+        } catch (Exception e) {
         }
     }
 }

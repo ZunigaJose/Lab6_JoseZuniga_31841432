@@ -1,9 +1,11 @@
 package lab6_josezuniga_318414132;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends javax.swing.JFrame {
@@ -16,6 +18,10 @@ public class MainForm extends javax.swing.JFrame {
         ab.leerArchivo();
         jTabbedPane1.setSelectedIndex(1);
         jTabbedPane1.setSelectedIndex(0);
+        numFact = numerito.leerNumerito();
+        System.out.println(numFact);
+        establecerCoti();
+        combobox();
     }
 
     /**
@@ -29,6 +35,8 @@ public class MainForm extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        popUp = new javax.swing.JPopupMenu();
+        Seleccionar = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -89,6 +97,15 @@ public class MainForm extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         comboEli = new javax.swing.JComboBox<>();
         jToggleButton1 = new javax.swing.JToggleButton();
+        cotizacion = new javax.swing.JButton();
+
+        Seleccionar.setText("Seleccionar");
+        Seleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeleccionarActionPerformed(evt);
+            }
+        });
+        popUp.add(Seleccionar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +131,11 @@ public class MainForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -122,7 +144,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -211,7 +233,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(creaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(creaCant, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(creaFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -426,7 +448,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(286, 286, 286)
                         .addComponent(jButton3)))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +523,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(comboEli, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(96, 96, 96)
                 .addComponent(jToggleButton1)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,6 +537,13 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Eliminar", jPanel4);
 
+        cotizacion.setText("Generar Cotizacion");
+        cotizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cotizacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -522,7 +551,9 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(cotizacion)
+                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,6 +561,10 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(cotizacion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -575,6 +610,7 @@ public class MainForm extends javax.swing.JFrame {
             creaNo.setSelected(false);
             creaNombre.setText("");
             creaPrecio.setText("");
+            reColor();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_crearActionPerformed
@@ -635,25 +671,62 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (comboModi.getSelectedIndex() >= 0) {
-            String codigo, marca, bebida;
-            double azucar;
-            int alcohol, lote, cantidad, precio;
-            boolean nacional;
-            Date fechaVencimineto;
-            codigo = modCod1.getText();
-            marca = modMarca1.getText();
-            bebida = modNombre1.getText();
-            azucar = Double.parseDouble(modAzucar.getText());
-            lote = Integer.parseInt(modLote.getText());
-            cantidad = Integer.parseInt(modCant.getValue().toString());
-            alcohol = Integer.parseInt(modAlcohol.getValue().toString());
-            precio = Integer.parseInt(modPrecio.getText());
-            nacional = modSi.isSelected();
-            fechaVencimineto = modFecha.getDate();
-            Bebida be = new Bebida(codigo, marca, marca, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
-            ab.getBebidas().set(comboModi.getSelectedIndex(), be);
+            try {
+                String codigo, marca, bebida;
+                double azucar;
+                int alcohol, lote, cantidad, precio;
+                boolean nacional;
+                Date fechaVencimineto;
+                codigo = modCod1.getText();
+                marca = modMarca1.getText();
+                bebida = modNombre1.getText();
+                azucar = Double.parseDouble(modAzucar.getText());
+                lote = Integer.parseInt(modLote.getText());
+                cantidad = Integer.parseInt(modCant.getValue().toString());
+                alcohol = Integer.parseInt(modAlcohol.getValue().toString());
+                precio = Integer.parseInt(modPrecio.getText());
+                nacional = modSi.isSelected();
+                fechaVencimineto = modFecha.getDate();
+                Bebida be = new Bebida(codigo, marca, bebida, azucar, alcohol, lote, cantidad, precio, nacional, fechaVencimineto);
+                ab.getBebidas().set(comboModi.getSelectedIndex(), be);
+                ab.escribirArchivo();
+                reColor();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        if (evt.isMetaDown()) {
+            if (tabla.getSelectedRow() >= 0) {
+                popUp.show(tabla, evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void SeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarActionPerformed
+        try {
+            int cant = Integer.parseInt(JOptionPane.showInputDialog(this, "Seleccione la cantidad de " + tabla.getValueAt(tabla.getSelectedRow(), 0) + ":"));
+            coti += "\n" + tabla.getValueAt(tabla.getSelectedRow(), 0) + "\t\t" + cant + "\t\tL." + tabla.getValueAt(tabla.getSelectedRow(), 3);
+            total += Integer.parseInt((tabla.getValueAt(tabla.getSelectedRow(), 2).toString()));
+            agregue = true;
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_SeleccionarActionPerformed
+
+    private void cotizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cotizacionActionPerformed
+        if (agregue) {
+            coti += "\t\t\t\t\tTotal: " + total;
+            total = 0;
+            facturita = new administrarBebidas("./Factura" + numFact + ".txt");
+            facturita.escribirFact(coti);
+            numFact = numerito.leerNumerito();
+            establecerCoti();
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay nada que generar");
+        }
+    }//GEN-LAST:event_cotizacionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -705,12 +778,27 @@ public class MainForm extends javax.swing.JFrame {
         comboColor.setModel(modelo);
     }
     
+    private void reColor(){
+        comboColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
+        modcolor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azul-4", "Rojo-69", "Verde-420", "Amarillo-77", "Blanco-07" }));
+    }
+    
+    private void establecerCoti(){
+        coti = "\t\tSupermercado EL Barrio\n"
+                + "Factura#" + numFact + "\t\t";
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+        coti += sd.format(new Date()) + "\n"
+                + "Product.\t\t\tCant.\t\t\tPrecio";
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Seleccionar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> comboColor;
     private javax.swing.JComboBox<String> comboEli;
     private javax.swing.JComboBox<String> comboModi;
+    private javax.swing.JButton cotizacion;
     private javax.swing.JSpinner creaAlcohol;
     private javax.swing.JFormattedTextField creaAzucar;
     private javax.swing.JSpinner creaCant;
@@ -767,8 +855,15 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField modPrecio;
     private javax.swing.JRadioButton modSi;
     private javax.swing.JComboBox<String> modcolor;
+    private javax.swing.JPopupMenu popUp;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
     administrarBebidas ab = new administrarBebidas("./bebidas.txt");
     ArrayList<String>colorante = new ArrayList<>();
+    administrarBebidas numerito = new administrarBebidas("./numerito");
+    String coti = "";
+    int numFact;
+    int total = 0;
+    boolean agregue = false;
+    administrarBebidas facturita;
 }
